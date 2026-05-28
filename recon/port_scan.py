@@ -6,7 +6,7 @@ def scan_ports(ip, ports):
 
 	for port in ports:
 		sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		sock.settimeout(1)
+		sock.settimeout(5)
 
 		result = sock.connect_ex((ip, port))
 

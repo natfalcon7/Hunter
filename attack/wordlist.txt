@@ -1,0 +1,10 @@
+admin123
+password
+123456
+termux
+android
+root123
+hunter123
+qwerty
+letmein
+abc123

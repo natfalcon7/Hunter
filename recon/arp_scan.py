@@ -8,7 +8,7 @@ def scan(ip_range):
 	ether = Ether(dst="ff:ff:ff:ff:ff:ff")
 	arp = ARP(pdst=ip_range)
 	packet = ether / arp
-	answered, unanswered = srp(packet, timeout=2, verbose=False)
+	answered, unanswered = srp(packet, timeout=8, verbose=False)
 	return answered 
 
 # Get those responses, extract the IP and MAC addresses from each one, and return a list of dictionaries.

